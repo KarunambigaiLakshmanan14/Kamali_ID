@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mark Attendance</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('../background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+      padding-top: 60px;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.6);
+      margin: auto;
+      padding: 30px;
+      border-radius: 12px;
+      width: 60%;
+    }
+
+    video {
+      margin-top: 20px;
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      background-color: teal;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #locationDisplay {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Attendance Portal</h1>
+    <p>Click below to mark your attendance with location and face capture:</p>
+
+    <div id="locationDisplay">Location: Not Detected</div>
+    <button onclick="getLocation()">Get Location</button>
+
+    <video id="video" autoplay></video>
+    <button onclick="startCamera()">Start Camera</button>
+  </div>
+
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const loc = Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude};
+            document.getElementById("locationDisplay").innerText = "Location: " + loc;
+          },
+          () => alert("Location access denied.")
+        );
+      } else {
+        alert("Geolocation not supported");
+      }
+    }
+
+    function startCamera() {
+      const video = document.getElementById('video');
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then((stream) => {
+          video.srcObject = stream;
+        })
+        .catch((err) => {
+          alert("Camera access denied: " + err);
+        });
+    }
+  </script>
+</body>
+</html>

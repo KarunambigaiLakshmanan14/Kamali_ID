@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My AI Assistant</title>
+
+    <!-- Internal CSS -->
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #49ced5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+    .logo{
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 180px;
+    }
+    .student-details {
+        background: #fff;
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .student-details h2 {
+        margin: 10px 0;
+        font-size: 22px;
+    }
+    .student-details p {
+        margin: 5px 0;
+        font-size: 16px;
+        color: #333;
+    }
+    #chat-box {
+        width: 400px;
+        height: 450px;
+        background: white;
+        border: 1px solid #060606;
+        border-radius: 10px;
+        overflow-y: auto;
+        margin-bottom: 10px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+    #input-area {
+        width: 400px;
+        display: flex;
+    }
+    #user-input {
+        flex: 1;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 10px 0 0 10px;
+        border: 1px solid #ccc;
+    }
+    button {
+        padding: 10px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 0 10px 10px 0;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    .user, .assistant {
+        margin: 5px;
+        padding: 8px 12px;
+        border-radius: 20px;
+        max-width: 75%;
+    }
+    .user {
+        background-color: #d1e7dd;
+        text-align: right;
+        align-self: flex-end;
+    }
+    .assistant {
+        background-color: #f8d7da;
+        text-align: left;
+        align-self: flex-start;
+    }
+    </style>
+</head>
+
+<body>
+    <img src="../images/logo.png" class="logo" alt="Logo" />
+<!-- Student Details Section -->
+<div class="student-details">
+    <h2>Kamali</h2>
+    <p><strong>Register No:</strong> 2117240070101</p>
+    <p><strong>Department:</strong> Artificial Intelligence & Data Science</p>
+    <p><strong>Section:</strong> C</p>
+</div>
+
+<!-- Chat Box -->
+<div id="chat-box"></div>
+
+<!-- Input Area -->
+<div id="input-area">
+    <input type="text" id="user-input" placeholder="Ask me anything...">
+    <button id="sendButton">Send</button>
+</div>
+
+<!-- Internal JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const inputField = document.getElementById('user-input');
+    const sendButton = document.getElementById('sendButton');
+
+    sendButton.addEventListener('click', handleUserInput);
+
+    inputField.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            handleUserInput();
+        }
+    });
+
+    function handleUserInput() {
+        const input = inputField.value.trim();
+        if (!input) return;
+        addMessage(input, "user");
+
+        let response = getAssistantResponse(input.toLowerCase());
+
+        setTimeout(() => {
+            addMessage(response, "assistant");
+        }, 500);
+
+        inputField.value = "";
+    }
+
+    function getAssistantResponse(userInput) {
+        if (userInput.includes("how are you") || userInput.includes("how r u")) {
+            return "I'm good! Thanks for asking.";
+          else if (userInput.includes("What is my name?"))
+            return "Kamali";
+        } else if (userInput.includes("how is my study going") || userInput.includes("study progress")) {
+            return "You're doing well! Keep putting consistent efforts.";
+        } else if (userInput.includes("current stage") || userInput.includes("overall view")) {
+            return "You are currently in Intermediate Stage. Focus on completing pending topics.";
+        } else if (userInput.includes("when is my exam") || userInput.includes("when is my test")) {
+            return "Your next exam is scheduled for May 15th. Keep preparing!";
+        } else if (userInput.includes("hi") || userInput.includes("hello")) {
+            return "Hi! How can I help you?";
+        } else {
+            return "I'm sorry, I didn't understand. Can you please ask differently?";
+        }
+    }
+
+    function addMessage(message, sender) {
+        const chatBox = document.getElementById('chat-box');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = sender;
+        messageDiv.textContent = message;
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+});
+</script>
+
+</body>
+</html>
